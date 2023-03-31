@@ -7,8 +7,10 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+# druid = { path = "druid/druid" }
 druid = { git = "https://github.com/CryZe/druid", branch = "changes-for-livesplit-one" }
-livesplit-core = { git = "https://github.com/LiveSplit/livesplit-core", features = ["font-loading", "software-rendering", "auto-splitting"] }
+livesplit-core = { path = "../../livesplit-core", features = ["font-loading", "software-rendering", "auto-splitting"] }
+# livesplit-core = { git = "https://github.com/LiveSplit/livesplit-core", features = ["font-loading", "software-rendering", "auto-splitting"] }
 image = "0.24.2"
 log = { version = "0.4.6", features = ["serde"] }
 serde = { version = "1.0.85", features = ["derive", "rc"] }
