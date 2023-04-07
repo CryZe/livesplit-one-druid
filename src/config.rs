@@ -2,7 +2,6 @@ use anyhow::{bail, Context, Result};
 use directories::ProjectDirs;
 use druid::WindowDesc;
 use livesplit_core::{
-    auto_splitting,
     layout::{self, Layout, LayoutSettings},
     run::{
         parser::{composite, TimerKind},
@@ -450,7 +449,8 @@ impl Config {
         // .topmost(true)
     }
 
-    pub fn maybe_load_auto_splitter(&self, runtime: &auto_splitting::Runtime) {
+    #[cfg(feature = "auto-splitting")]
+    pub fn maybe_load_auto_splitter(&self, runtime: &livesplit_core::auto_splitting::Runtime) {
         if let Some(auto_splitter) = &self.general.auto_splitter {
             if let Err(e) = runtime.load_script_blocking(auto_splitter.clone()) {
                 // TODO: Error chain

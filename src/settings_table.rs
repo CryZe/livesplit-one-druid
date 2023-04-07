@@ -1081,21 +1081,23 @@ fn font() -> impl Widget<SettingsRow> {
                             Flex::row()
                                 .with_child(Label::new("Style").fix_width(LABELS_WIDTH))
                                 .with_flex_child(
-                                    combo_box::static_list(&["Normal", "Italic"])
+                                    combo_box::static_list(&["Normal", "Italic", "Oblique"])
                                         .lens(Identity.map(
                                             |row: &SettingsRow| match &row.value {
                                                 Value::Font(Some(v)) => match v.style {
                                                     FontStyle::Normal => 0,
                                                     FontStyle::Italic => 1,
+                                                    FontStyle::Oblique => 2,
                                                 },
                                                 // TODO: What
-                                                _ => 2,
+                                                _ => 3,
                                             },
                                             |row: &mut SettingsRow, value: usize| {
                                                 if let Value::Font(Some(v)) = &mut row.value {
                                                     v.style = match value {
                                                         0 => FontStyle::Normal,
                                                         1 => FontStyle::Italic,
+                                                        2 => FontStyle::Oblique,
                                                         _ => return,
                                                     };
                                                 }

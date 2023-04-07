@@ -6,14 +6,10 @@ use std::{
     sync::{Arc, RwLock},
 };
 
-use druid::{kurbo::PathEl, Data, Lens, WindowId};
-use livesplit_core::{
-    auto_splitting, layout::LayoutState, rendering::SceneManager, HotkeySystem, Layout,
-    SharedTimer, Timer,
-};
+use druid::{Data, Lens, WindowId};
+use livesplit_core::{layout::LayoutState, HotkeySystem, Layout, SharedTimer, Timer};
 use mimalloc::MiMalloc;
-use once_cell::sync::{Lazy, OnceCell};
-// use piet_renderer::{Image, PietResourceAllocator};
+use once_cell::sync::Lazy;
 
 #[global_allocator]
 static GLOBAL: MiMalloc = MiMalloc;
@@ -58,10 +54,9 @@ pub struct MainState {
     timer: SharedTimer,
     #[data(ignore)]
     layout_data: Rc<RefCell<LayoutData>>,
-    // #[data(ignore)]
-    // hotkey_system: Rc<RefCell<HotkeySystem>>,
     #[data(ignore)]
-    auto_splitter: Rc<auto_splitting::Runtime>,
+    #[cfg(feature = "auto-splitting")]
+    auto_splitter: Rc<livesplit_core::auto_splitting::Runtime>,
     #[data(ignore)]
     config: Rc<RefCell<Config>>,
     run_editor: Option<OpenWindow<run_editor::State>>,
@@ -73,7 +68,6 @@ pub struct LayoutData {
     layout: Layout,
     layout_state: LayoutState,
     is_modified: bool,
-    // scene_manager: SceneManager<Rc<[PathEl]>, Rc<Image>>,
 }
 
 #[derive(Clone)]
@@ -103,18 +97,19 @@ impl MainState {
         config.configure_hotkeys(&mut hotkey_system);
         *HOTKEY_SYSTEM.write().unwrap() = Some(hotkey_system);
 
-        let auto_splitter = auto_splitting::Runtime::new(timer.clone());
+        #[cfg(feature = "auto-splitting")]
+        let auto_splitter = livesplit_core::auto_splitting::Runtime::new(timer.clone());
+        #[cfg(feature = "auto-splitting")]
         config.maybe_load_auto_splitter(&auto_splitter);
 
         Self {
             timer,
-            // hotkey_system: Rc::new(RefCell::new(hotkey_system)),
+            #[cfg(feature = "auto-splitting")]
             auto_splitter: Rc::new(auto_splitter),
             layout_data: Rc::new(RefCell::new(LayoutData {
                 layout,
                 layout_state: LayoutState::default(),
                 is_modified: false,
-                // scene_manager: SceneManager::new(PietResourceAllocator),
             })),
             config: Rc::new(RefCell::new(config)),
             run_editor: None,

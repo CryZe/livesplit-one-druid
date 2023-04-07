@@ -14,7 +14,11 @@ pub fn render_scene(
     state: &LayoutState,
 ) -> Option<(f32, f32)> {
     let size = paint_ctx.size();
-    let (width, height) = (size.width as u32, size.height as u32);
+    let scale = paint_ctx.scale();
+    let scaled_width = size.width * scale.x();
+    let scaled_height = size.height * scale.y();
+
+    let (width, height) = (scaled_width as u32, scaled_height as u32);
     let dimensions = renderer.image().dimensions();
 
     let new_dims = renderer.render(state, [width, height]);
