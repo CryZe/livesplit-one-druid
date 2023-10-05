@@ -2340,9 +2340,9 @@ dependencies = [
 
 [[package]]
 name = "proc-maps"
-version = "0.3.0"
+version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2c790484f98e8b00e2385ebde989077698f99417307a74361001ada102f8c2ce"
+checksum = "3d17946c951c8e8c4233375fdbfc212b215bd14ea1b18388eae8c95bb03a0174"
 dependencies = [
  "anyhow",
  "libc",
