@@ -8,7 +8,7 @@ use livesplit_core::{
         saver::livesplit::save_timer,
         LinkedLayout,
     },
-    HotkeyConfig, HotkeySystem, Run, RunEditor, Segment, Timer, TimingMethod,
+    HotkeyConfig, HotkeySystem, Run, RunEditor, Segment, SharedTimer, Timer, TimingMethod,
 };
 use log::error;
 use once_cell::sync::Lazy;
@@ -450,9 +450,9 @@ impl Config {
     }
 
     #[cfg(feature = "auto-splitting")]
-    pub fn maybe_load_auto_splitter(&self, runtime: &livesplit_core::auto_splitting::Runtime) {
+    pub fn maybe_load_auto_splitter(&self, runtime: &livesplit_core::auto_splitting::Runtime, timer: SharedTimer) {
         if let Some(auto_splitter) = &self.general.auto_splitter {
-            if let Err(e) = runtime.load_script_blocking(auto_splitter.clone()) {
+            if let Err(e) = runtime.load(auto_splitter.clone(), timer) {
                 // TODO: Error chain
                 log::error!("Auto Splitter failed to load: {}", e);
             }
