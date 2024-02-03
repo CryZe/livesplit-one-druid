@@ -98,9 +98,9 @@ impl MainState {
         *HOTKEY_SYSTEM.write().unwrap() = Some(hotkey_system);
 
         #[cfg(feature = "auto-splitting")]
-        let auto_splitter = livesplit_core::auto_splitting::Runtime::new(timer.clone());
+        let auto_splitter = livesplit_core::auto_splitting::Runtime::new();
         #[cfg(feature = "auto-splitting")]
-        config.maybe_load_auto_splitter(&auto_splitter);
+        config.maybe_load_auto_splitter(&auto_splitter, timer.clone());
 
         Self {
             timer,
