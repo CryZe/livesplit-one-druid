@@ -710,8 +710,7 @@ impl<T: Widget<MainState>> Widget<MainState> for WithMenu<T> {
             &mut self.renderer,
             &layout_data.layout_state,
         ) {
-            ctx.window()
-                .set_size(Size::new(new_width, new_height));
+            ctx.window().set_size(Size::new(new_width, new_height));
         }
     }
 }
