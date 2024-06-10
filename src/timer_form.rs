@@ -711,7 +711,7 @@ impl<T: Widget<MainState>> Widget<MainState> for WithMenu<T> {
             &layout_data.layout_state,
         ) {
             ctx.window()
-                .set_size(Size::new(new_width as _, new_height as _));
+                .set_size(Size::new(new_width, new_height));
         }
     }
 }
