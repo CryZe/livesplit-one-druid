@@ -13,7 +13,7 @@ use druid::{
     widget::{Controller, Flex},
     AppDelegate, AppLauncher, BoxConstraints, Command, DelegateCtx, Env, Event, EventCtx,
     FileDialogOptions, FileInfo, FileSpec, LayoutCtx, LifeCycle, LifeCycleCtx, LocalizedString,
-    Menu, MenuItem, MouseButton, Point, RenderContext, Selector, Size, UpdateCtx, Widget,
+    Menu, MenuItem, Point, RenderContext, Selector, Size, UpdateCtx, Widget,
     WidgetExt, WindowDesc, WindowId, WindowLevel,
 };
 use livesplit_core::{
@@ -135,7 +135,7 @@ impl<T: Widget<MainState>> Widget<MainState> for WithMenu<T> {
                 }
             }
             Event::MouseUp(event) => {
-                if event.button == MouseButton::Right
+                if (event.button.is_right() || (event.button.is_left() && event.mods.ctrl()))
                     && data.run_editor.is_none()
                     && data.layout_editor.is_none()
                     && data.settings_editor.is_none()
